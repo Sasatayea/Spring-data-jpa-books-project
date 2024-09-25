@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.global.book.base.BaseEntity;
+import com.global.book.validator.IpAdress;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -31,7 +32,8 @@ public class Auther extends BaseEntity<Long> {
 	@NotBlank
 	private String name;
 
-	@Pattern(regexp = "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$")
+//	@Pattern(regexp = "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$")
+	@IpAdress(message = "Shild be enter valid ip")
 	private String ipAdress;
 	
 	@jakarta.validation.constraints.Email
