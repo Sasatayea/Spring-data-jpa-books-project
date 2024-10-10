@@ -20,9 +20,6 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "books")
 public class Book extends BaseEntity<Long> {
 	
-	@NotBlank
-	private String name ;
-	
 	@Min(value = 10)
 	private Double price ;
 	
@@ -52,14 +49,6 @@ public class Book extends BaseEntity<Long> {
 
 	public void setDiscounted(Double discounted) {
 		this.discounted = discounted;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Double getPrice() {

@@ -12,36 +12,34 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 @MappedSuperclass
-@EntityListeners({AuditingEntityListener.class})
-public abstract class BaseEntity <ID>{
-	
+@EntityListeners({ AuditingEntityListener.class })
+public abstract class BaseEntity<ID> {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private ID id ;
-	
+	private ID id;
+
+	@NotBlank
+	private String name;
+
 	@CreatedBy
-	private String createdBy ;
-	
+	private String createdBy;
+
 	@CreatedDate
-	private LocalDateTime createdDate ;
-	
+	private LocalDateTime createdDate;
+
 	@LastModifiedBy
-	private String lastModifiedBy ;
-	
+	private String lastModifiedBy;
+
 	@org.springframework.data.annotation.LastModifiedDate
-	private LocalDateTime LastModifiedDate ;
-	
-	private String statusCode ;
+	private LocalDateTime LastModifiedDate;
 
-	public String getStatusCode() {
-		return statusCode;
-	}
-
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
+	private String statusCode;
 
 	public ID getId() {
 		return id;
@@ -49,6 +47,14 @@ public abstract class BaseEntity <ID>{
 
 	public void setId(ID id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getCreatedBy() {
@@ -82,6 +88,14 @@ public abstract class BaseEntity <ID>{
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
 		LastModifiedDate = lastModifiedDate;
 	}
-	
 
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	
 }

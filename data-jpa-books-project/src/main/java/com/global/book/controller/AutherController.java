@@ -1,6 +1,7 @@
 package com.global.book.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import com.global.book.entity.Auther;
 import com.global.book.entity.AutherSearch;
 import com.global.book.repository.AutherRepo;
 import com.global.book.service.AutherService;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 
@@ -33,7 +33,7 @@ public class AutherController {
 	private AutherService autherService;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable @Min(value = 6) Long id ) {
+	public ResponseEntity<?> findById(@PathVariable @Min(value = 0) Long id ) {
 		
 		return ResponseEntity.ok(autherService.findById(id));
 	}
@@ -43,6 +43,13 @@ public class AutherController {
 		
 		return ResponseEntity.ok(autherService.findAll());
 	}
+	
+	@GetMapping("/name/{name}")
+	public  ResponseEntity<?> findByName(@PathVariable  String name ) {
+		
+		return  ResponseEntity.ok(autherService.findByName(name));
+	}
+	
 	@PostMapping("")
 	public ResponseEntity<?> insert(@RequestBody @Valid Auther entity) {
 		

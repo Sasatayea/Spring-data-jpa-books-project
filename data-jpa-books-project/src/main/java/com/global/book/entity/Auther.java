@@ -29,15 +29,12 @@ import jakarta.validation.constraints.Pattern;
 @Table(name = "authers")
 public class Auther extends BaseEntity<Long> {
 
-	@NotBlank
-	private String name;
-
 //	@Pattern(regexp = "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$")
-	@IpAdress(message = "Shild be enter valid ip")
+	@IpAdress()
 	private String ipAdress;
 	
-	@jakarta.validation.constraints.Email
-	private String Email ; 
+	@jakarta.validation.constraints.Email()
+	private String email ; 
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "auther")
@@ -45,13 +42,24 @@ public class Auther extends BaseEntity<Long> {
 
 	@Formula("( select count(*) from books book where book.auther_id = id  )")
 	private Long autherCount;
+	
+	private String imagePath;
+
+	
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
 	public String getIpAdress() {
@@ -86,11 +94,4 @@ public class Auther extends BaseEntity<Long> {
 		this.books = books;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 }
