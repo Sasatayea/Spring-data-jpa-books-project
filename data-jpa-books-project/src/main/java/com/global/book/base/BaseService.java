@@ -3,6 +3,8 @@ package com.global.book.base;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -10,7 +12,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import com.global.book.entity.Auther;
 import com.global.book.error.RecoredNotFoundExecption;
 
-import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class BaseService<T extends BaseEntity<ID>, ID extends Number> {
@@ -37,7 +38,7 @@ public class BaseService<T extends BaseEntity<ID>, ID extends Number> {
 
 	public T getReferenceById(ID id) {
 
-		return baseRepository.getReferenceById(id);
+		return baseRepository.getById(id);
 	}
 
 	public List<T> findAll() {

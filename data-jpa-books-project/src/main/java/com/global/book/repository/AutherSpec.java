@@ -1,7 +1,13 @@
 package com.global.book.repository;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -9,55 +15,52 @@ import com.global.book.entity.Auther;
 import com.global.book.entity.AutherSearch;
 import com.global.book.entity.Book;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-
 public class AutherSpec implements Specification<Auther> {
 
-	private AutherSearch Search;
+	private AutherSearch search;
 
 	public AutherSpec(AutherSearch search) {
 		super();
-		this.Search = search;
+		this.search = search;
 	}
 
 	@Override
 	public Predicate toPredicate(Root<Auther> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-		// TODO Auto-generated method stub
-
-		Join<Auther, Book> BookJoin = root.join("books", JoinType.LEFT);
 
 		List<Predicate> predicates = new ArrayList<>();
+		
+		Join<Auther, Book> bookJoin = root.join("books", JoinType.LEFT);
 
-		// AutherName
-		if (Search.getAutherName() != null && !Search.getAutherName().isEmpty()) {
+		// auther name
+		if (search.getAutherName() != null && !search.getAutherName().isEmpty()) {
 
-			predicates.add(cb.like(root.get("name"), Search.getAutherName()));
+			predicates.add(cb.like(root.get("name"), search.getAutherName()));
 		}
 
 		// email
-		if (Search.getEmail() != null && !Search.getEmail().isEmpty()) {
+		if (search.getEmail() != null && !search.getEmail().isEmpty()) {
 
-			predicates.add(cb.like(root.get("email"), Search.getEmail()));
+			predicates.add(cb.like(root.get("email"), search.getEmail()));
 		}
 
-		if (Search.getIpAddress() != null && !Search.getIpAddress().isEmpty()) {
-			predicates.add(cb.like(root.get("ipAdress"), "%" + Search.getIpAddress() + "%"));
-		}
+		// email
+		if (search.getIpAddress() != null && !search.getIpAddress().isEmpty()) {
 
-		if (Search.getBookName() != null && !Search.getBookName().isEmpty()) {
-			// "%" ==> contain
-			predicates.add(cb.like(BookJoin.get("name"), "%" + Search.getBookName() + "%"));
+			predicates.add(cb.like(root.get("ipAddress"), "%" + search.getIpAddress() + "%" ));
 		}
+		
+		if (search.getBookName()!=null && !search.getBookName().isEmpty()) {
+			predicates.add(cb.like(bookJoin.get("name"), "%" + search.getBookName()+ "%" ));
+		}
+		
+		if (search.getPrice()!=null) {
+			predicates.add(cb.greaterThanOrEqualTo(bookJoin.get("price"), search.getPrice()));
+		}
+		
+		query.orderBy(cb.desc(root.get("id")));
 
-		if (Search.getPrice() != null) {
-			predicates.add(cb.equal(BookJoin.get("price"), Search.getPrice()));
-		}
 		return cb.and(predicates.toArray(new Predicate[0]));
+
 	}
 
 }

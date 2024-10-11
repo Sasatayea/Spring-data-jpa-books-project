@@ -3,8 +3,9 @@ package com.global.book.validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 
 public class IpAdressImpl implements ConstraintValidator<IpAdress, String> {
 

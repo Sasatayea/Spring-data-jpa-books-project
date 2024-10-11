@@ -13,9 +13,10 @@ import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
-import jakarta.validation.constraints.NotBlank.List;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+
+
 
 @Documented
 @Constraint(validatedBy = {IpAdressImpl.class })
