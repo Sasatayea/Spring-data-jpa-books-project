@@ -13,7 +13,6 @@ import java.nio.file.StandardCopyOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,18 +30,6 @@ public class FileUploadService {
 //	@Value("${file.upload.base-path}")
 	private final String basePath = "D:\\Global\\book\\";
 	
-//	@Value("${aws.s3.bucket}")
-	private String awsBucketName;
-	
-//	@Value("${google.storage.bucket-name}")
-	private String googleBucketName = "";
-	
-//	@Value("${google.storage.project-id}")
-	private String projectId = "";
-
-//	@Value("${google.storage.credentials.path}")
-	private String credentialPath = "";
-	
 	@Autowired
 	private AutherService autherService ;
 
@@ -51,7 +38,7 @@ public class FileUploadService {
 
 		// create uploaded path
 		this.fileStorageLocation = Paths.get(basePath + pathType).toAbsolutePath().normalize();
-
+		log.info("storeFile");
 		try {
 			Files.createDirectories(this.fileStorageLocation);
 		} catch (Exception ex) {
@@ -81,6 +68,7 @@ public class FileUploadService {
 	}
 	
 	public File convertMultiPartFileToFile(final MultipartFile multipartFile) {
+		log.info("convertMultiPartFileToFile");
 		final File file = new File(multipartFile.getOriginalFilename());
 		try (final FileOutputStream outputStream = new FileOutputStream(file)) {
 			outputStream.write(multipartFile.getBytes());
@@ -94,10 +82,9 @@ public class FileUploadService {
 
 		if (pathType.contains("authors")) {
 			// update author image path
-			Auther auther = autherService.findById(id);
+			Auther auther = autherService.getById(id);
 			auther.setImagePath(imagePath);
 			autherService.update(auther);
-
 		}
 
 	}

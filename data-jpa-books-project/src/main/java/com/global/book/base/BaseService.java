@@ -67,5 +67,9 @@ public class BaseService<T extends BaseEntity<ID>, ID extends Number> {
 	public void deleteById(ID id) {
 		baseRepository.deleteById(id);
 	}
+	
+	public T getById(ID id) {
+		return baseRepository.getById(id);
+	}
 
 }
